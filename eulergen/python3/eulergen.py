@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """Extracts Problem definitions from projecteuler.net and saves each to seperate
   file with common Python Template"""
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import sys
 from bs4 import BeautifulSoup
 
@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 def main():
 
     if len(sys.argv) != 3:
-        print 'usage: ./eulergen.py <start problem> <end problem>'
+        print('usage: ./eulergen.py <start problem number> <end problem number>')
         sys.exit(1)
 
     start = int(sys.argv[1])
@@ -17,15 +17,15 @@ def main():
 
     for i in range(start, end + 1):
         url = ('http://projecteuler.net/problem=' + str(i))
-        response = urllib2.urlopen(url)
+        response = urllib.request.urlopen(url)
         html = response.read()
         soup = BeautifulSoup(html)
         title = soup.h2.get_text()  # gets title
-        file_name = str(i) + '_' + title.lower(
-        ).replace(" ", "_").join('.py')  # lowercases it and removes whitespace
-
+        # lowercases it and removes whitespace
+        file_name = str(i) + '_' + title.lower().replace(" ", "_") + '.py'
         problem_definition = '\n'.join(
             [tag.get_text() for tag in soup.find_all('p')])
+
         template = '''
 #!/usr/bin/python
 """
@@ -42,10 +42,10 @@ if __name__ == '__main__':
     main()
 
                     ''' % (title, problem_definition)
-        f = open(filename, 'w')
+        f = open(file_name, 'w')
         f.write(template)
         f.close()
-        print('Created file %s succesfully' % filename)
+        print(('Created file %s succesfully' % file_name))
 
 if __name__ == '__main__':
     main()

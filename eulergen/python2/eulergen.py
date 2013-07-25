@@ -9,7 +9,11 @@ from bs4 import BeautifulSoup
 def main():
 
     if len(sys.argv) != 3:
-        print 'usage: ./eulergen.py <start problem number> <end problem number>'
+<<<<<<< HEAD:eulergen.py
+        print 'usage: ./eulergen.py <start problem> <end problem>'
+=======
+        print('usage: ./eulergen.py <start problem number> <end problem number>')
+>>>>>>> daa80d6... Make Python 3 compatibile:eulergen/python2/eulergen.py
         sys.exit(1)
 
     start = int(sys.argv[1])
@@ -21,11 +25,11 @@ def main():
         html = response.read()
         soup = BeautifulSoup(html)
         title = soup.h2.get_text()  # gets title
-        # lowercases it and removes whitespace
-        file_name = str(i) + '_' + title.lower().replace(" ", "_") + '.py'
+        file_name = str(i) + '_' + title.lower(
+        ).replace(" ", "_").join('.py')  # lowercases it and removes whitespace
+
         problem_definition = '\n'.join(
             [tag.get_text() for tag in soup.find_all('p')])
-
         template = '''
 #!/usr/bin/python
 """
@@ -42,10 +46,10 @@ if __name__ == '__main__':
     main()
 
                     ''' % (title, problem_definition)
-        f = open(file_name, 'w')
+        f = open(filename, 'w')
         f.write(template)
         f.close()
-        print('Created file %s succesfully' % file_name)
+        print('Created file %s succesfully' % filename)
 
 if __name__ == '__main__':
     main()
