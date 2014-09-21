@@ -1,6 +1,7 @@
 #!/usr/bin/python
 """Extracts Problem definitions from projecteuler.net and saves each to seperate
   file with common Python Template"""
+from __future__ import print_function
 import urllib2
 import sys
 from bs4 import BeautifulSoup
@@ -9,11 +10,7 @@ from bs4 import BeautifulSoup
 def main():
 
     if len(sys.argv) != 3:
-<<<<<<< HEAD:eulergen.py
-        print 'usage: ./eulergen.py <start problem> <end problem>'
-=======
         print('usage: ./eulergen.py <start problem number> <end problem number>')
->>>>>>> daa80d6... Make Python 3 compatibile:eulergen/python2/eulergen.py
         sys.exit(1)
 
     start = int(sys.argv[1])
